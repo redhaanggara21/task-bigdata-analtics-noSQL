@@ -18,6 +18,7 @@ export const getApiDocs = async () => {
               id: { type: "string" },
               name: { type: "string" },
               product: { type: "string" },
+              position: { type: "integer", description: "Urutan/Posisi Produk" },
               quantity: { type: "integer" },
               description: { type: "string" },
               createdAt: { type: "string" },

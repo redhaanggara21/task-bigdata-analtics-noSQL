@@ -2,7 +2,8 @@ export interface Product {
   id?: string;
   name: string;
   product: string;
-  quantity: number;
+  position: number; // 👈 1. Field Posisi Tambahan
+  sortedProductsquantity: number;
   description: string;
   createdAt: string;
   modifiedAt: string;

@@ -13,6 +13,7 @@ interface ProductFormProps {
 export default function ProductForm({ onSubmit, initialData, onCancel }: ProductFormProps) {
   const [name, setName] = useState(initialData?.name || "");
   const [product, setProduct] = useState(initialData?.product || "");
+  const [position, setPosition] = useState<number>(initialData?.position || 1); // 👈 1. State Posisi
   const [quantity, setQuantity] = useState(initialData?.quantity || 1);
   const [description, setDescription] = useState(initialData?.description || "");
   const [status, setStatus] = useState<'active' | 'inactive'>(initialData?.status || "active");
@@ -35,6 +36,7 @@ export default function ProductForm({ onSubmit, initialData, onCancel }: Product
       await onSubmit({
         name,
         product,
+        position: Number(position),
         quantity: Number(quantity),
         description,
         createdAt: initialData?.createdAt || now,
@@ -48,6 +50,7 @@ export default function ProductForm({ onSubmit, initialData, onCancel }: Product
       if (!initialData) {
         setName("");
         setProduct("");
+        setPosition(1);
         setQuantity(1);
         setDescription("");
         setTautan("");
@@ -64,7 +67,7 @@ export default function ProductForm({ onSubmit, initialData, onCancel }: Product
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-4 text-gray-800">
       <h2 className="text-xl font-bold mb-4">{initialData ? "Edit Produk" : "Tambah Produk Baru"}</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="block text-sm font-semibold mb-1">Nama Pembuat/User</label>
           <input
@@ -86,6 +89,20 @@ export default function ProductForm({ onSubmit, initialData, onCancel }: Product
             onChange={(e) => setProduct(e.target.value)}
             className="w-full border p-2 rounded focus:ring-2 focus:ring-blue-500"
             placeholder="Contoh: E-Book Next.js"
+          />
+        </div>
+
+        {/* 1. Input Kolom Posisi */}
+        <div>
+          <label className="block text-sm font-semibold mb-1">Posisi / Urutan</label>
+          <input
+            type="number"
+            min="1"
+            required
+            value={position}
+            onChange={(e) => setPosition(Number(e.target.value))}
+            className="w-full border p-2 rounded focus:ring-2 focus:ring-blue-500"
+            placeholder="1"
           />
         </div>
 
@@ -125,7 +142,7 @@ export default function ProductForm({ onSubmit, initialData, onCancel }: Product
           </select>
         </div>
 
-        <div>
+        <div className="md:col-span-3">
           <label className="block text-sm font-semibold mb-1">Tautan (URL)</label>
           <input
             type="url"
@@ -156,6 +173,7 @@ export default function ProductForm({ onSubmit, initialData, onCancel }: Product
           onChange={(e) => setImageFile(e.target.files?.[0] || null)}
           className="w-full border p-2 rounded bg-gray-50"
         />
+        <p className="text-xs text-gray-400 mt-1">*Jika dikosongkan, gambar default SVG akan digunakan.</p>
       </div>
 
       <div className="flex justify-end space-x-2 pt-2">
